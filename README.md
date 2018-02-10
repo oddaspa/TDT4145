@@ -18,7 +18,7 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
 
 ## Theory
 1. [Data Modelling Using the Entity-Relationship (ER) Model](#er_model)
-  1.1. [Using High-Level Conceptual Data Models for Database Design](#database_design)
+  1. [Using High-Level Conceptual Data Models for Database Design](#database_design)
   1.2 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types)
    1.3 [Relationship Types, Sets, Roles and Structural Constraints](#rel_types)
    1.4 [Weak Entity Types](#weal_entity)
