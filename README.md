@@ -9,14 +9,30 @@ I am currently studying this course at NTNU and will not have full understanding
 In this course we will be using the standard MySQL package.
 To install this package go to the [offical mySQL website](https://dev.mysql.com/downloads/windows/) (windows link) and choose the MySQL Installer. This is the wizard to install all the packages needed for the course which is mainly the workbench and server. 
 
-## Basics
-
-
+## Basics of MySQL
 1. [Create a database](#create_db)
 2. [Create a table](#create_tb)
 3. [Loading data into tables](#load_data)
 4. [Retrieve data from the table in various ways](#retrieve_data)
 5. [Using multiple tables ](#multiple_tables)
+
+## Theory
+1. [Data Modelling Using the Entity-Relationship (ER) Model](#er_model)
+  1.1 [Using High-Level Conceptual Data Models for Database Design] (#database_design)
+  1.2 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types)
+  1.3 [Relationship Types, Sets, Roles and Structural Constraints](#rel_types)
+  1.4 [Weak Entity Types](#weal_entity)
+  1.5 [ER Diagrams, Naming Convetions and Design Issues] (#er_diagrams)
+  1.6 [Relationship Types of Degree Higher than Two](#rel_types_higher)
+2. [Enhanced Entity-Relationship (EER) Diagrams](#eer)
+  2.1 [Subclasses, Superclasses, and Inheritance](#sub_super)
+  2.2 [Specialization and Generalization](#spec_gen)
+  2.3 [Modeling of UNION types](#union)
+3. [Relational Algebra](#relational_algebra)
+  3.1 [Relational Model Concepts](#relational_consepts)
+  3.2 [Relational Model Constraints and Relational Database Schemas](#relational_constraints)
+  3.3 [Update Operations, Transactions and constraint violations](#update_operations)
+4. [Mapping from ER/EER to Relational Mapping](#mapping)
 
 
 <a name="create_db"></a>
@@ -43,9 +59,22 @@ When you want to know certain aspects of the data within the database, you simpl
 The soul purpose of most databases is to allow multiple users and programs to access the database simultaneously. 
 
 #### Actually creating a database in MySQL
+Lets start with the workbench approach. When you are connected to the server of your choosing simply click the database logo in the far right corner. 
+
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/database_logo.png "Click that thingy!")
+Now name your new database whatever you want!
+
+Note that database is a synonym with schema in MySQL. Usually a schema is a collection of tables and a Database is a collection of schemas.
+
+If you are more of a fan of the MySQL Shell 
+`mysql> CREATE DATABASE foobar`
+NB! You should be connected to a server before making a database.
+
+You can also use the `mysql> SHOW DATABASES` to see exsisting databases.
 
 <a name="create_tb"></a>
 ### Creating a table 
+
 
 <a name="load_data"></a>
 ### Loading data into tables 
