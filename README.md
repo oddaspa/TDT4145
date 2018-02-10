@@ -18,11 +18,11 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
 
 ## Theory
 1. [Data Modelling Using the Entity-Relationship (ER) Model](#er_model)
-   1.1. [Using High-Level Conceptual Data Models for Database Design] (#database_design)
-   1.2 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types)
+  1.1. [Using High-Level Conceptual Data Models for Database Design](#database_design)
+  1.2 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types)
    1.3 [Relationship Types, Sets, Roles and Structural Constraints](#rel_types)
    1.4 [Weak Entity Types](#weal_entity)
-   1.5 [ER Diagrams, Naming Convetions and Design Issues] (#er_diagrams)
+   1.5 [ER Diagrams, Naming Convetions and Design Issues](#er_diagrams)
 ...1.6 [Relationship Types of Degree Higher than Two](#rel_types_higher)
 2. [Enhanced Entity-Relationship (EER) Diagrams](#eer)
   2.1 [Subclasses, Superclasses, and Inheritance](#sub_super)
@@ -62,6 +62,7 @@ The soul purpose of most databases is to allow multiple users and programs to ac
 Lets start with the workbench approach. When you are connected to the server of your choosing simply click the database logo in the far right corner. 
 
 ![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/database_logo.png "Click that thingy!")
+
 Now name your new database whatever you want!
 
 Note that database is a synonym with schema in MySQL. Usually a schema is a collection of tables and a Database is a collection of schemas.
