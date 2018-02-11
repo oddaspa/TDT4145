@@ -3,6 +3,9 @@
 ## Disclaimer
 I am currently studying this course at NTNU and will not have full understanding of the complexity of SQL. This is a **exercise** in writing README's and documenting code. 
 
+I will be using the book Fundamentals of Database Systems 6th. Edition by Ramez Elmasri, Shamkant B. Navathe. 
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/Fundamentals_of_Database_Systems,_6th_Edition.png "Fundamentals of Database Systems")
+
 ## Installation
 ![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/MySQL_logo.png "Official MySQL logo")
 
@@ -18,21 +21,21 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
 
 
 ## Theory
-1. [Data Modelling Using the Entity-Relationship (ER) Model](#er_model)
-  1.1 [Using High-Level Conceptual Data Models for Database Design](#database_design)
-  1.2 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types)
-  1.3 [Relationship Types, Sets, Roles and Structural Constraints](#rel_types)
-  1.4 [Weak Entity Types](#weal_entity)
-  1.5 [ER Diagrams, Naming Convetions and Design Issues](#er_diagrams)
-  1.6 [Relationship Types of Degree Higher than Two](#rel_types_higher)
+1. [Data Modelling Using the Entity-Relationship (ER) Model](#er_model) <br />
+1.1. [Using High-Level Conceptual Data Models for Database Design](#database_design) <br />
+1.2 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types) <br />
+1.3 [Relationship Types, Sets, Roles and Structural Constraints](#rel_types)  
+1.4 [Weak Entity Types](#weak_entity)<br />
+1.5 [ER Diagrams, Naming Convetions and Design Issues](#er_diagrams) <br />
+1.6 [Relationship Types of Degree Higher than Two](#rel_types_higher) <br />
 2. [Enhanced Entity-Relationship (EER) Diagrams](#eer)
-  2.1 [Subclasses, Superclasses, and Inheritance](#sub_super)
-  2.2 [Specialization and Generalization](#spec_gen)
-  2.3 [Modeling of UNION types](#union)
+  2.1 [Subclasses, Superclasses, and Inheritance](#sub_super)<br />
+  2.2 [Specialization and Generalization](#spec_gen)<br />
+  2.3 [Modeling of UNION types](#union)<br />
 3. [Relational Algebra](#relational_algebra)
-  3.1 [Relational Model Concepts](#relational_consepts)
-  3.2 [Relational Model Constraints and Relational Database Schemas](#relational_constraints)
-  3.3 [Update Operations, Transactions and constraint violations](#update_operations)
+  3.1 [Relational Model Concepts](#relational_concepts)<br />
+  3.2 [Relational Model Constraints and Relational Database Schemas](#relational_constraints)<br />
+  3.3 [Update Operations, Transactions and constraint violations](#update_operations)<br />
 4. [Mapping from ER/EER to Relational Mapping](#mapping)
 
 
@@ -86,3 +89,51 @@ You can also use the `mysql> SHOW DATABASES` to see exsisting databases.
 
 <a name="multiple_tables"></a>
 ### Using multiple tables 
+
+<a name="er_model"></a>
+## Data Modelling Using the Entity-Relationship (ER) Model(#er_model)
+
+<a name="database_design"></a>
+### 1.1. Using High-Level Conceptual Data Models for Database Design]
+
+<a name="entity_types"></a>
+### 1.2. Entity Types, Entity Sets, Attributes, and Keys
+
+<a name="rel_types"></a>
+### 1.3. Relationship Types, Sets, Roles and Structural Constraints
+
+<a name="weak_entity"></a>
+### 1.4. Weak Entity Types
+
+<a name="er_diagrams"></a>
+### 1.5. ER Diagrams, Naming Convetions and Design Issues
+
+<a name="rel_types_higher"></a>
+### 1.6. Relationship Types of Degree Higher than Two
+
+<a name="eer"></a>
+## 2. Enhanced Entity-Relationship (EER) Diagrams
+
+<a name="sub_super"></a>
+### 2.1. Subclasses, Superclasses, and Inheritance
+
+<a name="spec_gen"></a>
+### 2.2. Specialization and Generalization
+
+<a name="union"></a>
+### 2.3 Modeling of UNION types
+
+<a name="relational_algebra"></a>
+## 3. Relational Algebra
+
+<a name="relational_concepts"></a>
+### 3.1 Relational Model Concepts
+  
+<a name="relational_constraints"></a>
+### 3.2 Relational Model Constraints and Relational Database Schemas
+
+<a name="update_operations"></a>
+### 3.3 Update Operations, Transactions and constraint violations
+
+<a name="mapping"></a>
+## 4. Mapping from ER/EER to Relational Mapping
