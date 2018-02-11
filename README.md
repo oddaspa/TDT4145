@@ -79,7 +79,20 @@ You can also use the `mysql> SHOW DATABASES` to see exsisting databases.
 
 <a name="create_tb"></a>
 ### Creating a table 
+Now its time to fill our database with tables. To create your first table we open a new query tab from the file menu.
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/new_query_tab.png "New Query Tab!")
+In this tab you are able to manipulate your new database. Here we will use commands to create the _entities classes_ and _relation classes_ to design the architecture of the database. Keep in mind that these are classes and **not** actual data.
 
+I am using a [sample set](https://github.com/oddaspa/TDT4145/blob/master/samples/hundeeieredb) for setting up the database created by [Roger Midtstraum](https://www.ntnu.no/ansatte/roger.midtstraum) my proffesor currently lecturing this course.
+
+The format MySQL is written is as follows:
+`CREATE TABLE Person (
+	Pnr 	INTEGER NOT NULL,
+	Navn 	VARCHAR(20),
+	CONSTRAINT Person_PK PRIMARY KEY (Pnr));`
+ The `CREATE TABLE foobar` commands tells the query to make a completly new table called foobar. After the name we see the attirbutes of this table. After Pnr we assign the type of values accepted by the attribute. `INTEGER NOT NULL` is telling the database to only accept integers and that you can't insert a entity that doesnt have a value in this attribute. _Navn_ has the type VARCHAR(20) which is a variable-length, non-Unicode string data. The (20) in this case constrains that the string length. Setting a size helps indicate the type of data you are storing and also can also act as a last-gasp form of validation. Finally we have the `CONSTRAINT Person_PK PRIMARY KEY (Pnr)`. This is the curical attribute of the Person table. It tells MySQL to use this attribute as the _identification attribute_ of the entities inserted into this table. This syntax is normally used to add PRIMARY KEY constraint on multiple columns. If there is only one value for the PRIMARY KEY one could also simply write `Pnr INTEGER NOT NULL PRIMARY KEY`
+ 
+    
 
 <a name="load_data"></a>
 ### Loading data into tables 
