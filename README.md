@@ -80,8 +80,8 @@ You can also use the `mysql> SHOW DATABASES` to see exsisting databases.
 <a name="create_tb"></a>
 ### Creating a table 
 Now its time to fill our database with tables. To create your first table we open a new query tab from the file menu.
-![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/new_query_tab.png "New Query Tab!")
-In this tab you are able to manipulate your new database. Here we will use commands to create the _entities classes_ and _relation classes_ to design the architecture of the database. Keep in mind that these are classes and **not** actual data.
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/new_query_tab.png "New Query Tab!") <br/>
+In this tab you are able to manipulate your new database. Here we will use commands to create the _entity classes_ and _relation classes_ to design the architecture of the database. Keep in mind that these are classes and **not** actual data.
 
 I am using a [sample set](https://github.com/oddaspa/TDT4145/blob/master/samples/hundeeieredb) for setting up the database created by [Roger Midtstraum](https://www.ntnu.no/ansatte/roger.midtstraum) my professor currently lecturing this course.
 
