@@ -137,6 +137,42 @@ SELECT DISTINCT Navn FROM Person;
 ```
 <a name="multiple_tables"></a>
 ### Using multiple tables 
+Now we are ready for JOIN operators. <br />
+Lets work with some tables. 
+```sql
+CREATE TABLE bbplayer (
+	player_ID	INTEGER NOT NULL,
+	player_name 	VARCHAR(20),
+	player_team_ID	INTEGER NOT NULL,
+	CONSTRAINT bbplayer_PK PRIMARY KEY (player_ID));
+	CONSTRAINT bbplayer_FK FOREIGN KEY (player_team_ID) REFERENCES bbteam(team_ID)
+							ON UPDATE CASCADE
+							ON DELETE NO ACTION;
+
+CREATE TABLE bbteam (
+	team_ID		INTEGER NOT NULL,
+	team_name 	VARCHAR(20),
+	CONSTRAINT bbteam_PK PRIMARY KEY (team_ID));
+```
+We have created two enitiy classes called _bbplayer_ and _bbteam_. Notice that bbplayer have constraints on when the _foreign key_ updates. The `ON UPDATE CASCADE` command tells SQL that whenever the FK is updated in the bbteam table, update it in the bbplayer table as well. The `ON DELETE NO ACTION` command tells SQL to **not** delete the player from the table if the team is deleted from the team table. Now lets add some data.
+```sql
+INSERT INTO bbteam VALUES(100, "Bulls")
+INSERT INTO bbteam VALUES(101, "Lakers")
+INSERT INTO bbteam VALUES(102, "Warriors")
+INSERT INTO bbteam VALUES(103, "Trondheim")
+
+INSERT INTO bbplayer VALUES(1, "Jordan", 100)
+INSERT INTO bbplayer VALUES(2, "O'Neal", 101)
+INSERT INTO bbplayer VALUES(3, "Curry", 102)
+INSERT INTO bbplayer VALUES(4, "Bryant", 101)
+INSERT INTO bbplayer VALUES(5, "Aspaas", NULL)
+```
+Notice how we needed to create the teams **before** the players because some of the players are dependent on the teams to be created. <br />
+Lets begin with the most natural join. The inner join.
+```sql
+SELECT FROM bbplayer AS P JOIN bbteam AS T ON P.player_team_ID = T.team_ID;
+
+
 
 
 <a name="er_model"></a>
