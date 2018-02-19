@@ -173,7 +173,7 @@ Lets begin with the most natural join. The inner join.
 SELECT FROM bbplayer AS P JOIN bbteam AS T ON P.player_team_ID = T.team_ID;
 
 
-
+```
 
 <a name="er_model"></a>
 ## Data Modelling Using the Entity-Relationship (ER) Model(#er_model)
