@@ -15,7 +15,7 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
 ## Basics of MySQL
 1. [Create a database](#create_db)
 2. [Create a table](#create_tb)
-3. [Loading data into tables](#load_data)
+3. [Data Manipulation Language](#DML)
 4. [Retrieve data from the table in various ways](#retrieve_data)
 5. [Using multiple tables ](#multiple_tables)
 
@@ -32,7 +32,7 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
   2.1 [Subclasses, Superclasses, and Inheritance](#sub_super)<br />
   2.2 [Specialization and Generalization](#spec_gen)<br />
   2.3 [Modeling of UNION types](#union)<br />
-3. [Relational Algebra](#relational_algebra)
+3. [Relational Algebra](#relational_algebra) <br />
   3.1 [Relational Model Concepts](#relational_concepts)<br />
   3.2 [Relational Model Constraints and Relational Database Schemas](#relational_constraints)<br />
   3.3 [Update Operations, Transactions and constraint violations](#update_operations)<br />
@@ -103,14 +103,41 @@ Finally we have the `CONSTRAINT Person_PK PRIMARY KEY (Pnr)`. This is the curica
  
     
 
-<a name="load_data"></a>
-### Loading data into tables 
+<a name="DML"></a>
+### Data Manipulation Language  
+Fairly simple! Use the `INSERT INTO` command and specify which table you want to load data into. Following this you should have the values of the entity. Example:
+```sql
+INSERT INTO Person VALUES(1, "Olav);
+```
+To update information stored in the we use the `UPDATE` command. 
+```sql
+UPDATE Person
+	SET Navn = "William" 
+	Where Navn = "Olav"
+```
+To delete information we use the delete information use the `DELETE` command.
+```sql
+DELETE FROM Person
+	Where Navn = "William"
+```
+
 
 <a name="retrieve_data"></a>
 ### Retrieve data from the table in various ways 
-
+Now the `SELECT` statement comes in handy. It tells our database to select information stored by giving some constraints. 
+It is normally given in this format: 
+```sql
+SELECT <attributes> FROM <tables>
+	WHERE < logical constraint applies>
+```
+Keep in mind that relational database management systems (RDBMS) are based on bag semantics rather than set semantics and thus gives duplicates in the result table. <br />
+To only have unique values in the query use `DISTINCT` command after the `SELECT` command:
+```sql
+SELECT DISTINCT Navn FROM Person;
+```
 <a name="multiple_tables"></a>
 ### Using multiple tables 
+
 
 <a name="er_model"></a>
 ## Data Modelling Using the Entity-Relationship (ER) Model(#er_model)
