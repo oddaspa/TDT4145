@@ -1,0 +1,1 @@
+DELETE FROM Regissor WHERE RegissorID = 2;
