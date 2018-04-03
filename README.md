@@ -140,41 +140,48 @@ SELECT DISTINCT Navn FROM Person;
 Now we are ready for JOIN operators. <br />
 Lets work with some tables. 
 ```sql
-CREATE TABLE bbplayer (
-	player_ID	INTEGER NOT NULL,
-	player_name 	VARCHAR(20),
-	player_team_ID	INTEGER NOT NULL,
-	CONSTRAINT bbplayer_PK PRIMARY KEY (player_ID));
-	CONSTRAINT bbplayer_FK FOREIGN KEY (player_team_ID) REFERENCES bbteam(team_ID)
-							ON UPDATE CASCADE
-							ON DELETE NO ACTION;
-
 CREATE TABLE bbteam (
 	team_ID		INTEGER NOT NULL,
 	team_name 	VARCHAR(20),
 	CONSTRAINT bbteam_PK PRIMARY KEY (team_ID));
+
+
+CREATE TABLE bbplayer (
+	player_ID	INTEGER NOT NULL,
+	player_name 	VARCHAR(20),
+	player_team_ID	INTEGER,
+	CONSTRAINT bbplayer_PK PRIMARY KEY (player_ID), 
+	CONSTRAINT bbplayer_FK FOREIGN KEY (player_team_ID) REFERENCES bbteam(team_ID)
+							ON UPDATE CASCADE
+							ON DELETE NO ACTION);
 ```
 We have created two enitiy classes called _bbplayer_ and _bbteam_. Notice that bbplayer have constraints on when the _foreign key_ updates. The `ON UPDATE CASCADE` command tells SQL that whenever the FK is updated in the bbteam table, update it in the bbplayer table as well. The `ON DELETE NO ACTION` command tells SQL to **not** delete the player from the table if the team is deleted from the team table. Now lets add some data.
 ```sql
-INSERT INTO bbteam VALUES(100, "Bulls")
-INSERT INTO bbteam VALUES(101, "Lakers")
-INSERT INTO bbteam VALUES(102, "Warriors")
-INSERT INTO bbteam VALUES(103, "Trondheim")
+INSERT INTO bbteam VALUES(100, "Bulls");
+INSERT INTO bbteam VALUES(101, "Lakers");
+INSERT INTO bbteam VALUES(102, "Warriors");
+INSERT INTO bbteam VALUES(103, "Trondheim");
 
-INSERT INTO bbplayer VALUES(1, "Jordan", 100)
-INSERT INTO bbplayer VALUES(2, "O'Neal", 101)
-INSERT INTO bbplayer VALUES(3, "Curry", 102)
-INSERT INTO bbplayer VALUES(4, "Bryant", 101)
-INSERT INTO bbplayer VALUES(5, "Aspaas", NULL)
+INSERT INTO bbplayer VALUES(1, "Jordan", 100);
+INSERT INTO bbplayer VALUES(2, "O'Neal", 101);
+INSERT INTO bbplayer VALUES(3, "Curry", 102);
+INSERT INTO bbplayer VALUES(4, "Bryant", 101);
+INSERT INTO bbplayer VALUES(5, "Aspaas", NULL);
 ```
 Notice how we needed to create the teams **before** the players because some of the players are dependent on the teams to be created. <br />
-Lets begin with the most natural join. The inner join.
+
+## Inner Join
+Lets begin with the most 'natural' join. The inner join.
 ```sql
-SELECT FROM bbplayer AS P JOIN bbteam AS T ON P.player_team_ID = T.team_ID;
-
-
+SELECT * FROM bbplayer AS P JOIN bbteam AS T ON P.player_team_ID = T.team_ID;
 ```
+What we do now is give me all the columns og bbplayer and match them up on with the bbteam columns on  the condition where the team_id is matching up. 
+<br />
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/join_bbplayer_team.png "New Query Tab!") 
+As you can see we don't see all players nor all teams. This is because when we add the condidition matches. 
 
+## Cross Join
+When we skip the condition at the end we get a cross join. 
 <a name="er_model"></a>
 ## Data Modelling Using the Entity-Relationship (ER) Model(#er_model)
 
