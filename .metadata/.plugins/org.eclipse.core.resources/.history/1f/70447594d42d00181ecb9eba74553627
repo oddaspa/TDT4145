@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tdt4140.gr1847.app.ui.FxAppController">
+   <children>
+      <Button fx:id="btnLogin" defaultButton="true" layoutX="111.0" layoutY="220.0" mnemonicParsing="false" onAction="#login" text="Login">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <TextField fx:id="txtUsername" layoutX="37.0" layoutY="103.0" promptText="Username">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="txtPassword" layoutX="37.0" layoutY="159.0" promptText="Password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </PasswordField>
+      <Label fx:id="lblStatus" layoutX="37.0" layoutY="44.0" prefHeight="23.0" prefWidth="226.0" text="Status" textFill="#9e2626">
+         <font>
+            <Font name="Helvetica" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

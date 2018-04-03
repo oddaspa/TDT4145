@@ -1,0 +1,278 @@
+package gui;
+
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+
+public class FxAppController {
+	ArrayList<Integer> access_list = new ArrayList<Integer>(); // This global variable is reset whenever you click on "New Patient"
+	
+
+	
+	@FXML
+	private Label lblStatus;
+	@FXML
+	private TextField txtUsername;
+	@FXML
+	private TextField txtPassword;
+	@FXML
+	private Button btnLogin;
+	@FXML
+	private ChoiceBox<String> chBoxAccessList;
+	
+	// Runs when you click on "Login"
+	public void login(ActionEvent event) throws Exception {
+		String username = txtUsername.getText();
+		String password = txtPassword.getText(); 
+		
+		HttpClient client = new HttpClient();
+						
+		// Attempt to log in 
+		if(client.tryLogin(username, password)) {
+			String[] userData = client.getData();
+			
+			if(userData[3].equals("P")) { // Logged in as patient
+				
+				user = new Patient(Integer.valueOf(userData[0]), 	//UID
+													userData[1], 	//first name
+													userData[2], 	//last name
+													Integer.valueOf(userData[4]), //weight
+													Integer.valueOf(userData[5]), //height
+													userData[7], 	//username
+													userData[8]); 	//DOB
+				
+				lblStatus.setText("Login success");
+				Stage stage = new Stage();
+		        Parent root = FXMLLoader.load(getClass().getResource("PatientScene.fxml"));
+		        Scene scene = new Scene(root);
+		        stage.setScene(scene);
+		        stage.show();
+				Stage closeStage = (Stage) btnLogin.getScene().getWindow();
+			    closeStage.close();
+			} else { // Logged in as doctor
+				user = new Doctor(Integer.valueOf(userData[0]), 	//UID
+													userData[1], 	//first name
+													userData[2], 	//last name
+													userData[7], 	//username
+													userData[8]); 	//dob
+				
+				lblStatus.setText("Login success");
+				Stage stage = new Stage();
+		        Parent root = FXMLLoader.load(getClass().getResource("DocScene.fxml"));
+		        Scene scene = new Scene(root);
+		        stage.setScene(scene);
+		        stage.show();
+				Stage closeStage = (Stage) btnLogin.getScene().getWindow();
+			    closeStage.close();
+			    System.out.println("Before initializing");
+			    initializePossiblePatients();   
+			    System.out.println("After initializing");
+			}
+		} else { // Login failed - currently does not differentiate between existing/non-existing users
+			lblStatus.setFont(Font.font(10));
+			lblStatus.setText(client.getError());
+		}
+	}
+    
+	// Set up choice box for possible patients to check on
+    ObservableList<String> possiblePatients = FXCollections.observableArrayList();
+    
+    private void initializePossiblePatients() {
+		possiblePatients.removeAll(possiblePatients);
+		String a = "Patient1";
+		String b = "Patient2";
+		String c = "Patient3";
+		possiblePatients.addAll(a, b, c);
+		chBoxAccessList.setItems(possiblePatients); // Her stopper det opp...
+    }
+	
+	@FXML private Button btnCheckPatient;
+	@FXML private TextField txtPatientUsername;
+	//Runs when you click on "Check Patient" in the doctor Window
+	public void checkPatient(ActionEvent event) throws Exception {
+		// TODO: Check if the patient username is in the doctors access list
+		Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("PatientDataForDoctor.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+	
+	@FXML private Label lblReadHistory;
+	//Runs when you click on "History" in the patient information window
+	public void history(ActionEvent event) throws Exception {
+		Stage stage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("History.fxml"));
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		
+		lblReadHistory.setWrapText(true); //TODO: Fill this variable with the history text for the patient
+		
+	}
+    
+	@FXML private Button btnLogout;
+	//Runs when you click on "Logout" in the doctor window
+	public void logoutDoctor(ActionEvent event) throws Exception {
+		Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        
+		Stage closeStage = (Stage) btnLogout.getScene().getWindow();
+	    closeStage.close();
+	}
+	
+	@FXML private Button btnLogoutPatient;
+	//Runs when you click on "Logout" in the patient window
+	public void logoutPatient(ActionEvent event) throws Exception {
+		Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        
+		Stage closeStage = (Stage) btnLogoutPatient.getScene().getWindow();
+	    closeStage.close();
+	}
+	
+	// Runs when you click on "New Patient". Only possible to do in the doctor page.
+	public void newPatient(ActionEvent event) throws Exception { 
+		
+		ArrayList<Integer> empty_access_list = new ArrayList<Integer>();
+		access_list = empty_access_list;
+		
+		Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("NewUserScene.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+
+	@FXML private Button btnCancelHistory;
+	@FXML private Button btnSaveAndClose;
+	@FXML private Button btnSaveHistory;
+	@FXML private TextField txtHistory;
+	
+	// Button that saves the history to the patient that the doctor is currently checking and closes the window 
+	public void saveAndClose(ActionEvent event) throws Exception {
+		// TODO: Get the right patient id/user name and update the history of this patient
+		//int id = txtID.getText();
+		int id = 1;
+		String historyString = txtHistory.getText(); 
+		HttpClient client = new HttpClient();
+			
+		//Send the updated history
+		client.editHistory(id, historyString);
+		
+	    Stage stage = (Stage) btnSaveAndClose.getScene().getWindow();
+	    stage.close();
+	}
+	
+	// Closes the window when you hit "Cancel" in the history window
+	public void cancelHistory(ActionEvent event) throws Exception {
+	    Stage stage = (Stage) btnCancelHistory.getScene().getWindow();
+	    stage.close();
+	}
+	
+	@FXML private TextField txtFirstName;
+	@FXML private TextField txtLastName;
+	@FXML private TextField txtPatientPassword;
+	@FXML private TextField txtHeight;
+	@FXML private TextField txtWeight;
+	@FXML private Button btnCancel;
+	@FXML private Button btnRegister;
+	
+	// Runs when you click on "Register"
+	// TODO: Basic form validation ie. Upper first/last name, client-side password validation, height/weight is int etc.
+	// TODO: Handle server response
+	public void register(ActionEvent event) throws Exception {
+		String first_name = txtFirstName.getText();
+		String last_name = txtLastName.getText();
+		String password = txtPatientPassword.getText();
+		String height = txtHeight.getText();
+		String weight = txtWeight.getText();
+				
+		HttpClient client = new HttpClient();
+		
+		// generate username
+		String username = (first_name.substring(0, 3)+ last_name.substring(0, 3)).toLowerCase();
+		
+		boolean userCreated = client.createUser(first_name, last_name, username, password, "P", Integer.valueOf(weight), Integer.valueOf(height));
+		
+		if(userCreated) {
+			Stage stage = (Stage) btnRegister.getScene().getWindow();
+		    stage.close();
+		}
+	}	
+
+	// Runs when you click on "Cancel" in the register window
+	public void cancel(ActionEvent event) throws Exception {
+	    Stage stage = (Stage) btnCancel.getScene().getWindow();
+	    stage.close();
+	}
+	
+	@FXML private TextField txtDoctorID;
+	@FXML private Button btnAddDoctor;
+	@FXML private Label lblAccesses;
+	// Runs when you click on "Add Doctor"
+	public void addAccess(ActionEvent event) throws Exception {
+		
+		String doctorID = txtDoctorID.getText();
+		lblAccesses.setText(lblAccesses.getText() + "\n" + doctorID);
+		access_list.add(Integer.parseInt(doctorID));
+		System.out.println(access_list);
+	}	
+
+	/**Turns the DataTransfer OFF or ON from the main patient scene (main window).
+	 * Runs SetDataTransfer() in HttpClient, which then changes the boolean DataTransfer attribute in the DB*/
+	@FXML
+	private ToggleButton DataTransfer;
+	@FXML
+	private Label exceplabel;
+	
+	public void DataTransOnOff(ActionEvent event) throws Exception {
+		boolean bool = DataTransfer.isSelected();
+		boolean revvalue = !bool;
+		
+		HttpClient client = new HttpClient();
+		
+		boolean res = client.SetDataTransfer(bool);
+		if (res == true)
+		{
+			if (bool == false)
+			{
+				DataTransfer.setText("DataTransfer is OFF");
+				DataTransfer.setTextFill(Color.RED);
+			}
+			else
+			{
+				DataTransfer.setText("DataTransfer is ON");
+				DataTransfer.setTextFill(Color.GREEN);
+			}
+		}
+		else
+		{
+			DataTransfer.setSelected(revvalue);
+			exceplabel.setFont(Font.font(10));
+			exceplabel.setText(client.getError());
+			exceplabel.setTextFill(Color.RED);
+		}
+	}		
+}

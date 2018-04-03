@@ -1,0 +1,265 @@
+package gui;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.*;
+import gui.DbTablePrinter;
+
+public class Driver {
+
+	private static Connection connection = null;
+	public void initConnection(String url, String user, String password) {
+		try {
+			// 1. Get a connection to database
+			connection = DriverManager.getConnection(url, user, password);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void printTable (String table) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			// 3. Execute SQL query
+			ResultSet rs = myStat.executeQuery("SELECT * FROM " + table );
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+				System.out.print("|");
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " | ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	
+	public void insertIntoGruppe (String id, String beskrivelse) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "insert into gruppe " +
+						"(GruppeID, Beskrivelse) " +
+						"VALUES(" + id +", " + "'" + beskrivelse +  "'" +")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void insertIntoTreningsokt (String id, String dato, String varighet, String personligForm, String personligPrestasjon, String NotatID) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "insert into trenings¯kt " +
+						"(Trenings¯ktID, Dato, Varighet, PersonligForm, PersonligPrestasjon, NotatID) " +
+						"VALUES(" + id + ", " + "'" + dato +  "'" + 
+						", "  + varighet  + ", "  + personligForm  + 
+						", " + personligPrestasjon + NotatID + ")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void insertIntoOvelse (String id, String navn, String antallKilo, String antallSett, String ApparatID, String beskrivelse) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "insert into ÿvelse " +
+						"(ÿvelseID, Navn, AntallKilo, AntallSett, ApparatID, Beskrivelse) " +
+						"VALUES(" + id + ", " + "'" + navn +  "'" + 
+						", " + antallKilo + ", " + antallSett + ", " + 
+						ApparatID + ", " + "'" + beskrivelse +  "'" +")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void insertIntoApparat (String id, String beskrivelse) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "insert into gruppe " +
+						"(GruppeID, Beskrivelse) " +
+						"VALUES(" + id +", " + "'" + beskrivelse +  "'" +")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getNLast (String n) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "SELECT * FROM Trenings¯kt AS T "
+					+ "JOIN Notater AS N on T.NotatID = N.NotatID "
+					+ "WHERE Trenings¯ktID > Antallÿkter - " + n;
+			
+			ResultSet rs = myStat.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public void seeResultLogg (String time) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "SELECT ÿvelse.navn, AntallKilo, AntallSett, Trenings¯kt.Tidspunkt AS Tidspunkt, \r\n" + 
+					"Trenings¯kt.PersonligPrestasjon, Trenings¯kt.PersonligForm\r\n" + 
+					"FROM ÿvelse AS ÿ JOIN ÿvelseIÿkt AS ÿIÿ ON ÿ.ÿvelseID = ÿIÿ.ÿvelseID \r\n" + 
+					"JOIN Trenings¯kt AS T ON T.Trenings¯ktID = ÿIÿ.Trenings¯ktID  \r\n" + 
+					"WHERE " + time + " > Tidspunkt AND " + time + " < Tidspunkt + Varighet"; 
+			
+			ResultSet rs = myStat.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public void seeTotalKilos () {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "SELECT SUM(ÿ.AntallKilo*ÿ.AntallSett) AS Totale_kilo_l¯ftet \r\n" + 
+					"FROM ÿvelse AS ÿ JOIN Trenings¯kt AS T ON T.ÿvelseID = ÿ.ÿvelseID;"; 
+			
+			ResultSet rs = myStat.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public static void exeMethod(String arg) {
+		InputStreamReader ir = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(ir);
+		int choice = -1;
+		String inputString = "";
+		if (arg.toLowerCase().equals("hjelp")) {
+			choice = 0;
+		}
+		else {
+		choice = Integer.parseInt(arg);
+		}
+		
+		switch (choice) {
+		case 0:
+			getHelp();
+			break;
+		case 1: 
+			System.out.println("Skriv navnet pÂ tabellen du vil se: ");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			printTable(inputString);
+			break;
+			
+		case 2:
+			System.out.println("Skriv inn id og beskrivelse av apparat: (kommaseparert)");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			String[] parts = inputString.split(",");
+			String id = parts[0]; 
+			String beskrivelse = parts[1]; 
+			
+			insertIntoApparat(id, beskrivelse);
+		case 3:
+			
+		default: System.out.println("Ugyldig input. Bruk \"hjelp\" for Â se alle funksjonalitetene.");
+		}
+	}
+	public static void getHelp() {
+		System.out.println(
+				"Skriv inn tallet som tilsvarer den handlingen du vil utf¯re: \n"
+				+ "(1) Se en tabell. \n"
+				+ "(2) Registrere apparat. \n"
+				+ "(3) Registrere ¯velse. \n"
+				+ "(4) Registrere trenings¯kt. \n"
+				+ "(5) FÂ info om n antall sist gjennomf¯rt trenings¯kter med notater. \n"
+				+ "(6) Se resultatlogg i et tidsintervall. \n"
+				+ "(7) Lag ¯velsesgruppe go finn ¯velser i samme gruppe. \n"
+				+ "(8) Finn din totale l¯ftete kilo i l¯pet av en ¯kt."
+				);
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/dagbok";
+		String user = "root";
+		String password = "WqrzGldnWjZsn";
+		Driver d = new Driver();
+		d.initConnection(url,user,password);
+		boolean run = true;
+		
+		try {
+
+			System.out.println("Velkommen! Skriv \"hjelp\" for Â se alle funksjonalitetene.");
+			while(run) {
+				InputStreamReader ir = new InputStreamReader(System.in);
+				BufferedReader br = new BufferedReader(ir);
+				System.out.println("\n");
+				
+				String inputString = br.readLine();
+				System.out.println("Du skrev inn: " +inputString);
+				exeMethod(inputString);	
+			}
+			
+			
+		
+		}
+		catch (Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+
+}
+

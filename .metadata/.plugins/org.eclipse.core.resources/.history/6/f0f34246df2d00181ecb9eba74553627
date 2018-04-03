@@ -1,0 +1,57 @@
+package gui;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import static gui.Driver.*;
+
+public class ExeMethod {
+public static void exeMethod(String arg) {
+		
+		int choice = Integer.parseInt(arg);
+		switch (choice) {
+		case 1: 
+			InputStreamReader ir = new InputStreamReader(System.in);
+			BufferedReader br = new BufferedReader(ir);
+			System.out.println("Skriv inn id og beskrivelse av apparat: (kommaseparert)");
+			String inputString = null;
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			String[] parts = inputString.split(",");
+			String id = parts[0]; 
+			String beskrivelse = parts[1]; 
+			
+			insertIntoApparat(id, beskrivelse);
+		}
+	}
+	
+	
+	
+	public static void main(String[] args) {
+
+		
+		try {
+			Driver d = new Driver();
+			d.initConnection();
+			InputStreamReader ir = new InputStreamReader(System.in);
+			BufferedReader br = new BufferedReader(ir);
+			System.out.println("Skriv inn tallet som tilsvarer den handlingen du vil utføre: (1) Registrere apparater (2) Registrere øvelse (3) Registrere treningsøkt."
+					+ "(4) Få info om n sist gj.ført trningsøkter med notater. (3) Se resultatlogg i et tidsintervall."
+					+ "(5) Lag øvelsesgruppe go finn øvelser i samme gruppe."
+					+ "(6) Finn din totale løftete kilo i løpet av en økt.");
+			
+			String inputString = br.readLine();
+			System.out.println("Du skrev inn:" +inputString);
+			exeMethod(inputString);
+			
+		
+		}
+		catch (Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+
+}

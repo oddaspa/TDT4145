@@ -1,0 +1,415 @@
+package gui; // <<<<------ NB sikkert endre denne 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.*;
+
+
+public class Driver {
+
+	private static Connection connection = null;
+	public void initConnection(String url, String user, String password) {
+		try {
+			// 1. Get a connection to database
+			connection = DriverManager.getConnection(url, user, password);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void printTable (String table) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			// 3. Execute SQL query
+			ResultSet rs = myStat.executeQuery("SELECT * FROM " + table );
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+				System.out.print("| ");
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " | ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	
+	public static void insertIntoGruppe (String beskrivelse) {
+		try {
+			Statement myStat = connection.createStatement();
+			String id = getIncrement("gruppe");
+			String sql = "insert into gruppe " +
+						"(GruppeID, Beskrivelse) " +
+						"VALUES(" + id +", " + "'" + beskrivelse +  "'" +")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void insertIntoTreningsokt (String dato, String varighet, String personligForm, String personligPrestasjon, String NotatID) {
+		try {
+			Statement myStat = connection.createStatement();
+			String id = getIncrement("treningsøkt");
+			String sql = "insert into treningsøkt " +
+						"(TreningsøktID, Dato, Varighet, PersonligForm, PersonligPrestasjon, NotatID) " +
+						"VALUES(" + id + ", " + "'" + dato +  "'" + 
+						", "  + varighet  + ", "  + personligForm  + 
+						", " + personligPrestasjon + NotatID + ")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void insertIntoOvelse (String navn, String antallKilo, String antallSett, String ApparatID, String beskrivelse) {
+		try {
+			Statement myStat = connection.createStatement();
+			String id = getIncrement("Øvelse");
+			String sql = "insert into Øvelse " +
+						"(ØvelseID, Navn, AntallKilo, AntallSett, ApparatID, Beskrivelse) " +
+						"VALUES(" + id + ", " + "'" + navn +  "'" + 
+						", " + antallKilo + ", " + antallSett + ", " + 
+						ApparatID + ", " + "'" + beskrivelse +  "'" +")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void insertIntoApparat (String navn, String beskrivelse) {
+		try {
+			Statement myStat = connection.createStatement();
+			String id = getIncrement("apparat");
+			String sql = "insert into apparat " +
+						"(ApparatID, Navn, Beskrivelse) " +
+						"VALUES(" + id +", " + "'" + navn +  "'" + ", " + "'" + beskrivelse +  "'" +")" ;
+			// 3. Execute SQL query
+			myStat.executeUpdate(sql);
+			System.out.println("insert complete.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void getNLast (String n) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "select * " 
+					+ "from Treningsøkt AS T " 
+					+ "JOIN Notat AS N on T.NotatID = N.NotatID " 
+					+ "order by TreningsøktID desc limit "
+					+ n + ";";
+			
+			ResultSet rs = myStat.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public static void seeResultLog (String time) {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "SELECT Øvelse.navn, AntallKilo, AntallSett, Treningsøkt.Tidspunkt AS Tidspunkt, \r\n" + 
+					"Treningsøkt.PersonligPrestasjon, Treningsøkt.PersonligForm\r\n" + 
+					"FROM Øvelse AS Ø JOIN ØvelseIØkt AS ØIØ ON Ø.ØvelseID = ØIØ.ØvelseID \r\n" + 
+					"JOIN Treningsøkt AS T ON T.TreningsøktID = ØIØ.TreningsøktID  \r\n" + 
+					"WHERE " + time + " > Tidspunkt AND " + time + " < Tidspunkt + Varighet"; 
+			
+			ResultSet rs = myStat.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public void seeTotalKilos () {
+		try {
+			Statement myStat = connection.createStatement();
+			
+			String sql = "SELECT SUM(Ø.AntallKilo*Ø.AntallSett) AS Totale_kilo_løftet \r\n" + 
+					"FROM Øvelse AS Ø JOIN Treningsøkt AS T ON T.ØvelseID = Ø.ØvelseID;"; 
+			
+			ResultSet rs = myStat.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+			    for(int i = 1; i <= columnsNumber; i++)
+			        System.out.print(rs.getString(i) + " ");
+			    System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public static void findExcercisesInGroup(String group) throws SQLException {
+		Statement myStat = connection.createStatement();
+		String sql = "SELECT Ø.Navn FROM Øvelse AS Ø "
+				+ "JOIN gruppeøvelse as GØ ON Ø.ØvelseID = GØ.ØvelseID " 
+				+ "JOIN gruppe AS G ON GØ.GruppeID = G.GruppeID; ";
+				// + "GROUP BY G.GruppeID " 
+				// + "WHERE G.Beskrivelse=" + group.toLowerCase() +  ";"; 
+		
+		
+		// SQL statement funker ikke helt ^^^^^^^^^^ returnerer alle øvelsene
+		ResultSet rs = myStat.executeQuery(sql);
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int columnsNumber = rsmd.getColumnCount();
+		while (rs.next()) {
+		    for(int i = 1; i <= columnsNumber; i++)
+		        System.out.print(rs.getString(i) + " ");
+		    System.out.println();
+		}
+	}	
+
+		
+	public static String getIncrement(String table) throws SQLException {
+		int returnValue = 0;
+		Statement myStat = connection.createStatement();
+		
+		// 3. Execute SQL query
+		ResultSet rs = myStat.executeQuery("SELECT Count(*) FROM " + table );
+		while(rs.next()) {
+			returnValue = (rs.getInt(1));
+		}
+		returnValue += 1;
+		return Integer.toString(returnValue);
+	}
+		
+	
+	
+	public static void exeMethod(String arg) throws SQLException {
+		InputStreamReader ir = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(ir);
+		int choice = -1;
+		String inputString = "";
+		if (arg.toLowerCase().equals("hjelp")) {
+			choice = 0;
+		}
+		else {
+		choice = Integer.parseInt(arg);
+		}
+		
+		switch (choice) {
+		case 0:
+			getHelp();
+			break;
+		case 1: 
+			System.out.println("Skriv navnet på tabellen du vil se: ");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			printTable(inputString);
+			break;
+			
+		case 2:
+			System.out.println("Skriv inn beskrivelse av apparat: ");
+			
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			String[] apparatParts = inputString.split(",");
+			String apparatNavn = apparatParts[0];
+			String appBeskrivelse = apparatParts[1]; 
+;
+			insertIntoApparat(apparatNavn, appBeskrivelse);
+			break;
+		case 3:
+			// registrere øvelse
+			
+			System.out.println("Skriv inn følgende for å registrere øvelse: navn, antall kilo, antall sett, beskrivelse, apparatId: (kommaseparert)");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			String[] Ovelseparts = inputString.split(",");
+			String Navn = Ovelseparts[0];
+			String AntallKilo = Ovelseparts[1];
+			String AntallSett = Ovelseparts[2];
+			String ovBeskrivelse = Ovelseparts[3];
+			String OvelseApparatID = Ovelseparts[4];
+			
+			insertIntoOvelse(Navn, AntallKilo, AntallSett, ovBeskrivelse, OvelseApparatID);
+			break;
+			
+		case 4:
+			// registrere treningsøkt 
+			
+			System.out.println("Skriv inn følgende for å registrere treningsøkt: Dato, varighet, personlig form(1-10), personlig prestasjon (1-10), NotatID: (kommaseparert)");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			
+			String[] Treningsoktparts = inputString.split(",");
+			String Dato = Treningsoktparts[0];
+			String Varighet = Treningsoktparts[1];
+			String PersonligForm = Treningsoktparts[2];
+			String PersonligPrestasjon = Treningsoktparts[3];
+			String TreningsoktNotatID = Treningsoktparts[4];
+			
+			insertIntoTreningsokt(Dato, Varighet, PersonligForm, PersonligPrestasjon, TreningsoktNotatID);
+			break;
+		
+		case 5:
+			//public void getNLast (String n)
+			System.out.println("Skriv antall treningsøkter du vil se: ");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			getNLast(inputString);
+			break;
+			// få info om n antall gjennomførte treningsøkter
+			
+		case 6: 
+			//public void seeResultLogg (String time)
+			System.out.println("Skriv antall inn tiden: ");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			seeResultLog(inputString);
+			break;
+			
+			
+		case 7:
+			// lag øvelsesgruppe og finn øvelser i samme gruppe
+			
+			System.out.println("Skriv inn følgende for å registrere ny gruppe: gruppebeskrivelse");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			
+			insertIntoGruppe(inputString);
+			
+			//mangler å vise øvelser i samme gruppe
+			System.out.println("Hvilken gruppe vil du se?");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			// Se på denne funksjonen lengre opp.
+			findExcercisesInGroup(inputString);
+			
+
+			
+		case 8:
+			// finn din totale løftede kilo i løpet av en økt.
+		
+			System.out.println("Hvilken økt vil du se totalt antall løftede kilo i? svar med nummeret til økten (heltall)");
+			try {
+				inputString = br.readLine();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			
+			//mangler å finne hvilken økt man ønsker å se før 
+			break;
+			
+			
+		default: System.out.println("Ugyldig input. Bruk \"hjelp\" for å se alle funksjonalitetene.");
+		}
+
+	}
+	public static void getHelp() {
+		System.out.println(
+				"Skriv inn tallet som tilsvarer den handlingen du vil utføre: \n"
+				+ "(1) Se en tabell. \n"
+				+ "(2) Registrere apparat. \n"
+				+ "(3) Registrere øvelse. \n"
+				+ "(4) Registrere treningsøkt. \n"
+				+ "(5) Få info om n antall sist gjennomført treningsøkter med notater. \n"
+				+ "(6) Se resultatlogg i et tidsintervall. \n"
+				+ "(7) Lag øvelsesgruppe og finn øvelser i samme gruppe. \n"
+				+ "(8) Finn din totale løftete kilo i løpet av en økt. \n"
+				+ "\"quit\" for å avslutte progtammet."
+				);
+		
+	}
+	
+	
+	public static void main(String[] args) throws SQLException {
+		String url = "jdbc:mysql://localhost:3306/dagbok";
+		String user = "root";
+		String password = "WqrzGldnWjZsn";
+		Driver d = new Driver();
+		d.initConnection(url,user,password);
+		boolean run = true;
+
+		try {
+
+			System.out.println("Velkommen! Skriv \"hjelp\" for å se alle funksjonalitetene.");
+			while(run) {
+				InputStreamReader ir = new InputStreamReader(System.in);
+				BufferedReader br = new BufferedReader(ir);
+				System.out.println("");
+				
+				String inputString = br.readLine();
+				if(inputString.toLowerCase().equals("quit")) {
+					run=false;
+					break;
+				}
+				System.out.println("Du skrev inn: " + inputString);
+				exeMethod(inputString);
+			}		
+		}
+		catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		System.out.println("Takk for at du prøve programmet!");
+	}
+
+}
+
