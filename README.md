@@ -246,7 +246,7 @@ Normalization is used for mainly two purposes:
 ## Insertion Anomalies
 Insertion anomalies occurs when certain attributes cannot be inserted into the database without the presence of other attributes. 
 Example: Your data base consists of a deparment of education. In this database you have one table with student name, student ID, class enrolled and class ID. Let's also fill it with some enteties. 
-![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/Insertion_anamoly.png "Your database!") <br/>
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/Insertion_anomaly.png "Your database!") <br/>
 In this database we cannot add a new course without a student participating. 
 Let's assume that the course 4145 is very popular and 100 more students want to participate in the course. We would need to write the code and name 100 times more in the same database! <br />
 Both of these are insertion anomalies.
@@ -260,6 +260,33 @@ A deletetion amomaly occurs when certain attributes are lost because of the dele
 Example: Edgar F. Codd leaves the department and is deleted from the database. Now the data for the class 1012 is also lost(unintentionally). 
 
 ### 5.1 First Normal Form - 1NF
+First lets look at some of the attributes the first normal form has:
+1. Values of each attribute are atomic.
+2. No composite values.
+3. All entries in any column must be of the same kind.
+4. Each Column must have a unique name.
+5. No two rows are identical.
+
+Lets also keep in mind that all normal forms greater than the first presupposes the first normal form.
+
+First step in database normalization. This section stresses the atomicity of databases which is also the first of the [ACID](https://en.wikipedia.org/wiki/ACID) attributes. Atomicity prevents updates to the database occurring only partially, which can cause greater problems than rejecting the whole series outright. Now the atomicity problem does not exist in the table we created. Just check the list above! If however we where to put all the classes enrolled in the same attribute of the student (Course: [4145, 4136] ) then we would not have an atomic attribute, and thus not 1NF.
 ### 5.2 Secound Normal Form - 2NF
+*A relation is said to be in 2NF if it is in 1NF and all non-prime attributes are fully functional depentdent on each key of R.* 
+Let's find all the possible candidate keys of this relationship.
+``` 
+F = { 	A 	-> 	BCDEF
+	BC 	->	ADEF
+	B 	-> 	F
+	D 	-> 	E
+	}
+
+A+ =	ABCDEF
+Candinate Key = A, BC 	
+NPA = D, E, F
+```
+Here we see that the NPA F is partially functional dependent on B and not fully functional dependent on BC. Therefore this is not in 2NF. 
+Let's break it down.
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/2NF.png "Break them into two relationships") <br/>
+Now R1 is in 2Nf.
 ### 5.3 Third Normal Form - 3NF
 
