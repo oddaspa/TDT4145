@@ -28,7 +28,7 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
 1.4 [Weak Entity Types](#weak_entity)<br />
 1.5 [ER Diagrams, Naming Convetions and Design Issues](#er_diagrams) <br />
 1.6 [Relationship Types of Degree Higher than Two](#rel_types_higher) <br />
-2. [Enhanced Entity-Relationship (EER) Diagrams](#eer)
+2. [Enhanced Entity-Relationship (EER) Diagrams](#eer) <br />
   2.1 [Subclasses, Superclasses, and Inheritance](#sub_super)<br />
   2.2 [Specialization and Generalization](#spec_gen)<br />
   2.3 [Modeling of UNION types](#union)<br />
@@ -36,7 +36,9 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
   3.1 [Relational Model Concepts](#relational_concepts)<br />
   3.2 [Relational Model Constraints and Relational Database Schemas](#relational_constraints)<br />
   3.3 [Update Operations, Transactions and constraint violations](#update_operations)<br />
-4. [Mapping from ER/EER to Relational Mapping](#mapping)
+4. [Mapping from ER/EER to Relational Mapping](#mapping) <br />
+5. [Normalization](#norm) <br />
+
 
 
 <a name="create_db"></a>
@@ -229,3 +231,35 @@ When we skip the condition at the end we get a cross join.
 
 <a name="mapping"></a>
 ## 4. Mapping from ER/EER to Relational Mapping
+
+
+<a name="norm"></a>
+## 5. Database Normalization
+Database Normalization is a technique of organizing the data in the database. Normalization is a systematic approach of decomposing tables to eliminate data redundancy(repetition) and undesirable characteristics like Insertion, Update and Deletion Anomalies. It is a multi-step process that puts data into tabular form, removing duplicated data from the relation tables.
+
+Normalization is used for mainly two purposes:
+
+* Eliminating reduntant(useless) data.
+* Ensuring data dependencies make sense i.e data is logically stored.
+[ref (09.04.18)](https://www.studytonight.com/dbms/database-normalization.php)
+
+## Insertion Anomalies
+Insertion anomalies occurs when certain attributes cannot be inserted into the database without the presence of other attributes. 
+Example: Your data base consists of a deparment of education. In this database you have one table with student name, student ID, class enrolled and class ID. Let's also fill it with some enteties. 
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/Insertion_anamoly.png "Your database!") <br/>
+In this database we cannot add a new course without a student participating. 
+Let's assume that the course 4145 is very popular and 100 more students want to participate in the course. We would need to write the code and name 100 times more in the same database! <br />
+Both of these are insertion anomalies.
+
+## Update Anomalies
+An update anomaly exists when one or more instances of duplicated data is updated, but not all. 
+Example: Considering the database in the previous example, if we where to change the name "Intro to Databases" to "Fundamentals of databases" we would need to alter the data for every student that is enrolled in that class.
+
+## Delete Anomalies
+A deletetion amomaly occurs when certain attributes are lost because of the deletion of other attributes.
+Example: Edgar F. Codd leaves the department and is deleted from the database. Now the data for the class 1012 is also lost(unintentionally). 
+
+### 5.1 First Normal Form - 1NF
+### 5.2 Secound Normal Form - 2NF
+### 5.3 Third Normal Form - 3NF
+
