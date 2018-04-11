@@ -284,9 +284,22 @@ A+ =	ABCDEF
 Candinate Key = A, BC 	
 NPA = D, E, F
 ```
+Prime attributes are the attributes that are present in any candidate key. Similarly non-prime attributes are the attributes that are not present in any candidate key. In this example A, B and C are the prime attributes.
 Here we see that the NPA F is partially functional dependent on B and not fully functional dependent on BC. Therefore this is not in 2NF. 
 Let's break it down.
 ![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/2NF.png "Break them into two relationships") <br/>
 Now R1 is in 2Nf.
 ### 5.3 Third Normal Form - 3NF
+The criteria for 3NF are as following:
+1. The relationship R is in second normal form (2NF).
+2. Every non-prime attribute is non-transitively dependent on every key in R.
 
+Consider the following:
+``` 
+R(A, B, C, D)
+lets assume CK = BC (NPA = CD)
+
+```
+For this to be in 3NF there should not be a relation C -> D beacuse then a non-prime attribute determines another non-prime attribute.
+
+Lets continue the example from 2NF.
