@@ -168,7 +168,7 @@ INSERT INTO bbplayer VALUES(1, "Jordan", 100);
 INSERT INTO bbplayer VALUES(2, "O'Neal", 101);
 INSERT INTO bbplayer VALUES(3, "Curry", 102);
 INSERT INTO bbplayer VALUES(4, "Bryant", 101);
-INSERT INTO bbplayer VALUES(5, "Aspaas", NULL);
+INSERT INTO bbplayer VALUES(5, "Hancock", NULL);
 ```
 Notice how we needed to create the teams **before** the players because some of the players are dependent on the teams to be created. <br />
 
@@ -184,15 +184,35 @@ As you can see we don't see all players nor all teams. This is because when we a
 
 ## Cross Join
 When we skip the condition at the end we get a cross join. 
-<a name="er_model"></a>
-## Data Modelling Using the Entity-Relationship (ER) Model(#er_model)
 
-<a name="database_design"></a>
-### 1.1. Using High-Level Conceptual Data Models for Database Design]
+<a name="er_model"></a>
+## Data Modelling Using the Entity-Relationship (ER) Model
+![alt text](https://github.com/oddaspa/TDT4145/blob/master/images/ER_Diagram.png "Brief overview")
+
+An entity relationship diagram shows the relationshiås of entity classes stored in a database. An entity in this context is a component of data. In other words, ER diagrams illustrate the logical structure of databases. In these diagrams we use entity classes, relationships, attributes and cardinality to provide suffient information to create relational database schemas for later use.
+
+[comment]: <> (<a name="database_design"></a> (### 1.1. Using High-Level Conceptual Data Models for Database Design))
 
 <a name="entity_types"></a>
-### 1.2. Entity Types, Entity Sets, Attributes, and Keys
+### 1.1. Entity Types, Entity Sets, Attributes, and Keys
+There is a key differnece to entity types and entity sets. Lets consider this example
+```
+Student
+ID	Name	Age
+1	Jane	24
+2	John	27
 
+```
+An entity is something which has a real existance. Tuple one which contains information about Jane shows her ID, name and age, which has existance in the real world. Remember a database is not a proper database if it does not reflect real data in its mini world. 
+The tuple one is an entity. So we may say that **each tuple is an entity**. 
+#### Entity Type
+It is the class that defines the structure of the entities within it. They are the fundamental building blocks of systems in databases and directly correspond to database tables. So Student is an entity type which contains the entities of Jane and John.
+
+#### Entity Set
+An entity set is the set of objects of the same entity type. So the set of *one or more* entites of the Student entity type is an entity set.
+
+#### Attributes
+Properties of an entity are reffered as attributes. They contain the values of the specific entities. For example, ID, name and age are properties of the entites in the Student table, hence these are attributes.
 <a name="rel_types"></a>
 ### 1.3. Relationship Types, Sets, Roles and Structural Constraints
 
