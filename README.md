@@ -22,12 +22,11 @@ To install this package go to the [offical mySQL website](https://dev.mysql.com/
 
 ## Theory
 1. [Data Modelling Using the Entity-Relationship (ER) Model](#er_model) <br />
-1.1. [Using High-Level Conceptual Data Models for Database Design](#database_design) <br />
-1.2 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types) <br />
-1.3 [Relationship Types, Sets, Roles and Structural Constraints](#rel_types)  
-1.4 [Weak Entity Types](#weak_entity)<br />
-1.5 [ER Diagrams, Naming Convetions and Design Issues](#er_diagrams) <br />
-1.6 [Relationship Types of Degree Higher than Two](#rel_types_higher) <br />
+1.1 [Entity Types, Entity Sets, Attributes, and Keys](#entity_types) <br />
+1.2 [Relationship Types, Sets, Roles and Structural Constraints](#rel_types)  
+1.3 [Weak Entity Types](#weak_entity)<br />
+1.4 [ER Diagrams, Naming Convetions and Design Issues](#er_diagrams) <br />
+1.5 [Relationship Types of Degree Higher than Two](#rel_types_higher) <br />
 2. [Enhanced Entity-Relationship (EER) Diagrams](#eer) <br />
   2.1 [Subclasses, Superclasses, and Inheritance](#sub_super)<br />
   2.2 [Specialization and Generalization](#spec_gen)<br />
@@ -191,8 +190,6 @@ When we skip the condition at the end we get a cross join.
 
 An entity relationship diagram shows the relationshiås of entity classes stored in a database. An entity in this context is a component of data. In other words, ER diagrams illustrate the logical structure of databases. In these diagrams we use entity classes, relationships, attributes and cardinality to provide suffient information to create relational database schemas for later use.
 
-[comment]: <> (<a name="database_design"></a> (### 1.1. Using High-Level Conceptual Data Models for Database Design))
-
 <a name="entity_types"></a>
 ### 1.1. Entity Types, Entity Sets, Attributes, and Keys
 There is a key differnece to entity types and entity sets. Lets consider this example
@@ -214,16 +211,16 @@ An entity set is the set of objects of the same entity type. So the set of *one 
 #### Attributes
 Properties of an entity are reffered as attributes. They contain the values of the specific entities. For example, ID, name and age are properties of the entites in the Student table, hence these are attributes.
 <a name="rel_types"></a>
-### 1.3. Relationship Types, Sets, Roles and Structural Constraints
+### 1.2. Relationship Types, Sets, Roles and Structural Constraints
 
 <a name="weak_entity"></a>
-### 1.4. Weak Entity Types
+### 1.3. Weak Entity Types
 
 <a name="er_diagrams"></a>
-### 1.5. ER Diagrams, Naming Convetions and Design Issues
+### 1.4. ER Diagrams, Naming Convetions and Design Issues
 
 <a name="rel_types_higher"></a>
-### 1.6. Relationship Types of Degree Higher than Two
+### 1.5. Relationship Types of Degree Higher than Two
 
 <a name="eer"></a>
 ## 2. Enhanced Entity-Relationship (EER) Diagrams
